@@ -13,7 +13,7 @@ function logInUser(email,password){
 
 
 const obj = logInUser("vj@gmail.com",1234);   
-console.log(obj);    //undefined
+console.log(obj);    
 console.log("end");                         
 
 
@@ -117,11 +117,14 @@ function postDeatils(username){
 
 console.log("end");
 
-logInUser("abc@mail.com","1234").then((userobj)=>{
-    console.log(userobj);
-    return getUserDetails(userobj.username).then((userdetails)=>{
+logInUser("abc@mail.com","1234")
+.then((userobj)=>{
+    console.log(userobj)
+getUserDetails(userobj.username
+).then((userdetails)=>{
         console.log(userdetails);
-        return postDeatils(userdetails.username).then((posts)=>{
+postDeatils(userdetails.username)
+.then((posts)=>{
             console.log(posts);
         }).catch((reason)=>{
             console.log(reason)
@@ -132,9 +135,9 @@ logInUser("abc@mail.com","1234").then((userobj)=>{
     console.log(reason);})
 
 
+//asyn/await
 
-
-console.log("start");
+ console.log("start");
 
 console.log("mid");
 
@@ -142,7 +145,7 @@ function logInUser(email,password){
     //hit backend...                    
     const pro = new Promise((resolve,reject)=>{
         setTimeout(()=>{
-        resolve({username:'vijay'});
+        resolve({username:'vijay',email});
         },2000);
     
     });
@@ -171,15 +174,19 @@ function postDeatils(username){
 
 console.log("end");
 
-async function testing(){
-    const userobj =  await logInUser("abc@gmail.com","12345");
-    console.log(userobj);
-    const userdetails = await getUserDetails(userobj.username);
-    console.log(userdetails);
-    const posts = await postDeatils(userdetails.username);
-    console.log(posts);
+const testing =async()=>{
+    const arr = [{"abc@gmail.com":12345},{"efg@gmail.com":56789},{"hijk@gmail.com":98765}];
+    for(i = 0;i<arr.length;i++){
+        const userobj =  await logInUser(arr[i]); //promise {pending}
+        console.log(userobj);
+        const userdetails = await getUserDetails(userobj.username);
+        console.log(userdetails);
+        const posts = await postDeatils(userdetails.username);
+        console.log(posts);
+    }
+    
+    // userobj.then(userobject => console.log(userobject));      //used to access the promise pending result
 };
-
 
 testing()
 
